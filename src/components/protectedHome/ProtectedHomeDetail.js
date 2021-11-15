@@ -8,6 +8,7 @@ function ProtectedHomeDetail(props) {
 
     const [favoriteMovies, setFavoriteMovies] = useState([])
     
+    
     useEffect(() => {
         favorites()
     }, [])
@@ -53,8 +54,10 @@ function ProtectedHomeDetail(props) {
                     }
                 }
             );
-
-            window.location.reload(false)
+            
+            let newFavoriteArray = [...favoriteMovies, payload.data.favoriteMovie]
+            console.log(newFavoriteArray);
+            setFavoriteMovies(newFavoriteArray)
 
         } catch (e) {
 
@@ -79,8 +82,12 @@ function ProtectedHomeDetail(props) {
                     }
                 }
             );
+            
+            let newFavoriteArray = favoriteMovies.filter( el => {
+                return el._id !== payload.data.deletedMovie._id;
+            });
 
-            window.location.reload(false)
+            setFavoriteMovies(newFavoriteArray)
 
         } catch (e) {
 

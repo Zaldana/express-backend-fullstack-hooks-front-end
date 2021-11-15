@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import OmdbDetail from './ProtectedHomeDetail';
 import Loading from "../common/Loading";
 import ProtectedHomeDetail from "./ProtectedHomeDetail";
 
@@ -20,17 +19,22 @@ function ProtectedHome() {
         const initialSearchArray = ["superman", "lord of the rings", "batman", "pokemon", "harry potter", "star wars", "avengers", "terminator"]
 
         const randomMovie = Math.floor(Math.random() * initialSearchArray.length);
-        
+
         setInitialSearch(randomMovie);
         return initialSearchArray[randomMovie]
     }
 
     useEffect(() => {
 
-        fetchMovieApi(randomInitialSearch());
-
-    }, []);
-
+        let mounted = true;
+        fetchMovieApi(randomInitialSearch())
+        if (mounted) {
+            setIsLoading(false)
+        }
+        return () => {
+            mounted = false
+        }
+    }, [])
 
     async function fetchMovieApi(searchResult) {
 
@@ -50,12 +54,13 @@ function ProtectedHome() {
 
             } else {
 
-                let idArray = result.data.Search.map(({ imdbID }) => (imdbID))
                 let movieDetails = []
+                let idArray = result.data.Search.map(({ imdbID }) => (imdbID))
+                let uniqueIdArray = [...new Set(idArray)]
 
                 for (let i = 0; i < 9; i++) {
                     movieDetails.push(await axios.get(
-                        `http://www.omdbapi.com/?i=${idArray[i]}&type=movie&apikey=${API_KEY}`
+                        `http://www.omdbapi.com/?i=${uniqueIdArray[i]}&type=movie&apikey=${API_KEY}`
                     ))
                 }
 
@@ -95,36 +100,36 @@ function ProtectedHome() {
 
     return (
 
-            <div style={styles.blackBackground}>
-                <div style={styles.searchDiv}>
-                    <input
-                        name="searchResult"
-                        value={searchResult}
-                        onChange={handleOnChange}
-                        style={styles.search}
-                    />
-                    <button style={styles.button} onClick={handleOnClick}>Search</button>
-                </div>
-                {isError &&
-                    <div style={styles.padding}>
-                        <span style={styles.error}>{errorMessage}</span>
-                    </div>
-                }
-                <div >
-                    {isLoading ? (
-                        <div style={styles.loading}>
-                            <Loading />
-                        </div>
-                    ) : (
-                        <ProtectedHomeDetail
-                            movieDetailsArray={movieDetailsArray}
-                        />
-                    )}
-                </div>
+        <div style={styles.blackBackground}>
+            <div style={styles.searchDiv}>
+                <input
+                    name="searchResult"
+                    value={searchResult}
+                    onChange={handleOnChange}
+                    style={styles.search}
+                />
+                <button style={styles.button} onClick={handleOnClick}>Search</button>
             </div>
+            {isError &&
+                <div style={styles.padding}>
+                    <span style={styles.error}>{errorMessage}</span>
+                </div>
+            }
+            <div >
+                {isLoading ? (
+                    <div style={styles.loading}>
+                        <Loading />
+                    </div>
+                ) : (
+                    <ProtectedHomeDetail
+                        movieDetailsArray={movieDetailsArray}
+                    />
+                )}
+            </div>
+        </div>
 
     )
-}; 
+};
 
 
 const styles = {
