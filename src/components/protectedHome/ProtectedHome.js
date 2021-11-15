@@ -5,10 +5,10 @@ import ProtectedHomeDetail from "./ProtectedHomeDetail";
 
 function ProtectedHome() {
 
-    const [moviesArray, setMoviesArray] = useState([]);
+    const [ , setMoviesArray] = useState([]);
     const [searchResult, setSearchResult] = useState("");
     const [movieDetailsArray, setMovieDetailsArray] = useState([]);
-    const [initialSearch, setInitialSearch] = useState("")
+    const [ , setInitialSearch] = useState("")
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");

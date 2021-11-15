@@ -16,8 +16,8 @@ function MovieDetail() {
     const [actors, setActors] = useState("");
     const [plot, setPlot] = useState("");
     const [poster, setPoster] = useState("");
-    const [errorMessage, setErrorMessage] = useState("")
-    const [isError, setIsError] = useState(false)
+    const [ , setErrorMessage] = useState("")
+    const [ , setIsError] = useState(false)
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {

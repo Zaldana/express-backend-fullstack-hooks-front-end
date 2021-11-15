@@ -4,12 +4,12 @@ import Loading from "../common/Loading";
 
 function Home() {
 
-    const [moviesArray, setMoviesArray] = useState([]);
+    const [ , setMoviesArray] = useState([]);
     const [movieDetailsArray, setMovieDetailsArray] = useState([]);
-    const [initialSearch, setInitialSearch] = useState("")
+    const [ , setInitialSearch] = useState("")
     const [isLoading, setIsLoading] = useState(false);
-    const [isError, setIsError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
+    const [ , setIsError] = useState(false);
+    const [ , setErrorMessage] = useState("");
 
 
     function randomInitialSearch() {

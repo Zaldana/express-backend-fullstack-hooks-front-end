@@ -56,7 +56,6 @@ function ProtectedHomeDetail(props) {
             );
             
             let newFavoriteArray = [...favoriteMovies, payload.data.favoriteMovie]
-            console.log(newFavoriteArray);
             setFavoriteMovies(newFavoriteArray)
 
         } catch (e) {
