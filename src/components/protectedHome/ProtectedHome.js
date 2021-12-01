@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import queryString from "query-string";
+import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "../common/Loading";
 import ProtectedHomeDetail from "./ProtectedHomeDetail";
 
@@ -13,10 +15,21 @@ function ProtectedHome() {
     const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
+    const { search } = useLocation();
+    const navigate = useNavigate();
 
     function randomInitialSearch() {
 
-        const initialSearchArray = ["superman", "lord of the rings", "batman", "pokemon", "harry potter", "star wars", "avengers", "terminator"]
+        const initialSearchArray = [
+            "superman",
+            "lord of the rings",
+            "batman",
+            "pokemon",
+            "harry potter",
+            "star wars",
+            "avengers",
+            "terminator"
+        ]
 
         const randomMovie = Math.floor(Math.random() * initialSearchArray.length);
 
@@ -31,21 +44,37 @@ function ProtectedHome() {
         if (mounted) {
             setIsLoading(false)
         }
+        
         return () => {
             mounted = false
         }
-    }, [])
+    
+    }, []);
+
+    useEffect(() => {
+        const values = queryString.parse(search);
+        if (values.s) {
+            fetchMovieApi(values.s);
+        } else {
+            fetchMovieApi(randomInitialSearch());
+        }
+    }, []);
+
+
 
     async function fetchMovieApi(searchResult) {
 
         setIsLoading(true)
+        navigate(`/protected-home?s=${searchResult}`, {
+            replace: true,
+        });
 
         try {
 
             const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 
             let result = await axios.get(
-                `http://www.omdbapi.com/?s=${searchResult}&type=movie&apikey=${API_KEY}`
+                `https://www.omdbapi.com/?s=${searchResult}&type=movie&apikey=${API_KEY}`
             );
 
             if (result.data.Error) {
@@ -60,7 +89,7 @@ function ProtectedHome() {
 
                 for (let i = 0; i < 9; i++) {
                     movieDetails.push(await axios.get(
-                        `http://www.omdbapi.com/?i=${uniqueIdArray[i]}&type=movie&apikey=${API_KEY}`
+                        `https://www.omdbapi.com/?i=${uniqueIdArray[i]}&type=movie&apikey=${API_KEY}`
                     ))
                 }
 

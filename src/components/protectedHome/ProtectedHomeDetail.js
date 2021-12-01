@@ -16,9 +16,13 @@ function ProtectedHomeDetail(props) {
     async function favorites() {
 
         try {
+            let url =
+                process.env.NODE_ENV === "production"
+                    ? "https://movie-back-end.herokuapp.com/api/movie/"
+                    : "http://localhost:3001/api/users/login";
 
             let payload = await axios.get(
-                "http://localhost:3001/api/movie/",
+                url,
                 {
                     headers: {
                         authorization: jwtToken,
@@ -39,7 +43,7 @@ function ProtectedHomeDetail(props) {
         try {
 
             let payload = await axios.post(
-                "http://localhost:3001/api/movie/add-movie",
+                "https://movie-back-end.herokuapp.com/api/movie/add-movie",
                 
                 {
                     movieTitle,
@@ -73,7 +77,7 @@ function ProtectedHomeDetail(props) {
         try {
 
             let payload = await axios.delete(
-                `http://localhost:3001/api/movie/delete-fav-by-id/${id}`,
+                `https://movie-back-end.herokuapp.com/api/movie/delete-fav-by-id/${id}`,
 
                 {
                     headers: {
@@ -201,3 +205,5 @@ const styles = {
 }
 
 export default ProtectedHomeDetail
+
+// window.history.pushState("", "", `/protected-home?s=${movieTitle}`);
