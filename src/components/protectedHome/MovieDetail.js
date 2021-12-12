@@ -33,7 +33,7 @@ function MovieDetail() {
             const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 
             let result = await axios.get(
-                `http://www.omdbapi.com/?i=${imdbID}&type=movie&apikey=${API_KEY}`
+                `https://www.omdbapi.com/?i=${imdbID}&type=movie&apikey=${API_KEY}`
             );
 
             setTitle(result.data.Title);

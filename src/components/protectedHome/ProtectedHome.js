@@ -74,7 +74,7 @@ function ProtectedHome() {
             const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 
             let result = await axios.get(
-                `http://www.omdbapi.com/?s=${searchResult}&type=movie&apikey=${API_KEY}`
+                `https://www.omdbapi.com/?s=${searchResult}&type=movie&apikey=${API_KEY}`
             );
 
             if (result.data.Error) {
@@ -89,7 +89,7 @@ function ProtectedHome() {
 
                 for (let i = 0; i < 9; i++) {
                     movieDetails.push(await axios.get(
-                        `http://www.omdbapi.com/?i=${uniqueIdArray[i]}&type=movie&apikey=${API_KEY}`
+                        `https://www.omdbapi.com/?i=${uniqueIdArray[i]}&type=movie&apikey=${API_KEY}`
                     ))
                 }
 

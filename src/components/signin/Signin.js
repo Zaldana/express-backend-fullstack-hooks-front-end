@@ -39,13 +39,20 @@ function Signin({ setUser }) {
 
         try {
 
+            let url =
+                process.env.NODE_ENV === "production"
+                    ? "https://movie-back-end.herokuapp.com/api/users/login"
+                    : "http://localhost:3001/api/users/login";
+                    
             let payload = await axios.post(
-                "http://localhost:3001/api/users/login",
+                url,
                 {
                     email,
                     password,
                 }
             );
+
+            console.log(payload);
 
             window.localStorage.setItem("jwtToken", payload.data.payload)
 

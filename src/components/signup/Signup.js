@@ -67,8 +67,14 @@ function Signup() {
         e.preventDefault();
 
         try {
+
+            let url =
+                process.env.NODE_ENV === "production"
+                    ? "https://movie-back-end.herokuapp.com/api/users/create-user"
+                    : "http://localhost:3001/api/users/create-user";
+            
             let payload = await axios.post(
-                "http://localhost:3001/api/users/create-user",
+                url,
                 {
                     firstName,
                     lastName,
