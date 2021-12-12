@@ -201,3 +201,5 @@ const styles = {
 }
 
 export default ProtectedHomeDetail
+
+// window.history.pushState("", "", `/protected-home?s=${movieTitle}`);
